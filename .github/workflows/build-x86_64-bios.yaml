@@ -17,10 +17,16 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y build-essential clang flex bison g++ gawk gcc-multilib gettext git libncurses5-dev libssl-dev python3-full rsync unzip zlib1g-dev
-
+      
+      - name: Set OpenWrt version from file
+        id: openwrt_version
+        run: |
+          VERSION=$(cat openwrt-version-x86.txt)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          
       - name: Clone OpenWrt
         run: |
-          git clone --depth=1 https://github.com/openwrt/openwrt
+          git clone --depth=1 -b ${{ steps.openwrt_version.outputs.version }} https://github.com/openwrt/openwrt
           cd openwrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
