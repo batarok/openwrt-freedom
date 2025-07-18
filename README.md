@@ -1,6 +1,6 @@
-# OpenWrt for HG680P with OpenClash
+# OpenWrt for Freedom
 
-This repo builds a custom OpenWrt firmware for ZTE HG680P (Amlogic S905X) with OpenClash support.
+This repo builds a custom OpenWrt firmware for ZTE HG680P (Amlogic S905X) & X86_64 with OpenClash support.
 
 ## Features
 - Target: meson64
