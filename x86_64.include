@@ -2,7 +2,6 @@ luci
 luci-ssl-openssl
 luci-app-openclash
 coreutils
-dnsmasq
 ip-full
 kmod-tun
 iptables-mod-tproxy
