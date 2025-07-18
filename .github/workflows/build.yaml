@@ -1,0 +1,41 @@
+name: Build OpenWrt for HG680P
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential clang flex bison g++ gawk           gcc-multilib gettext git libncurses5-dev libssl-dev           python3-distutils rsync unzip zlib1g-dev
+
+    - name: Clone OpenWrt
+      run: |
+        git clone --depth=1 https://github.com/openwrt/openwrt
+        cd openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+
+    - name: Use custom config
+      run: |
+        cp config/hg680p-openclash.config openwrt/.config
+        cd openwrt
+        make defconfig
+
+    - name: Build firmware
+      run: |
+        cd openwrt
+        make -j$(nproc) || make -j1 V=s
+
+    - name: Upload firmware
+      uses: actions/upload-artifact@v3
+      with:
+        name: openwrt-hg680p
+        path: openwrt/bin/targets/
