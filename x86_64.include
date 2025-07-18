@@ -9,3 +9,4 @@ iptables
 kmod-igb
 kmod-e1000e
 kmod-r8169
+luci-theme-bootstrap
