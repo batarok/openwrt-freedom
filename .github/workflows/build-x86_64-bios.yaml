@@ -1,7 +1,9 @@
-name: OpenWrt x86_64 BIOS
+name: OpenWrt x86_64-BIOS
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -37,8 +39,28 @@ jobs:
             cd openwrt
             make -j$(nproc) || make -j1 V=s
 
-      - name: Upload firmware
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: openwrt-x86_64-bios
-          path: openwrt/bin/targets/
+          path: |
+            openwrt/bin/targets/*/*/*.img.gz
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: Firmware BIOS ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Firmware to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            openwrt/bin/targets/*/*/*.img.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
