@@ -5,3 +5,7 @@ kmod-tun
 ip-full
 coreutils
 wget-ssl
+iptables
+kmod-igb
+kmod-e1000e
+kmod-r8169
