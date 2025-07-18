@@ -9,6 +9,6 @@ iptables-mod-tproxy
 kmod-inet-diag
 luci-app-firewall
 luci-base
-luci-theme-bootstrap
+luci-theme-argon
 wget-ssl
 ca-certificates
