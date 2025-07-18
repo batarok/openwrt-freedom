@@ -1,6 +1,7 @@
 name: OpenWrt x86_64-BIOS
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*'
