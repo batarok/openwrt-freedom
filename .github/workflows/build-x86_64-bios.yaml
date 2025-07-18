@@ -29,7 +29,7 @@ jobs:
           # Tambah paket dari file
           xargs -a ../x86_64.include -I % echo CONFIG_PACKAGE_%=y >> .config
           # Hapus paket dari file
-          xargs -a ../x86_64.exclude -I % echo # CONFIG_PACKAGE_% is not set >> .config
+          xargs -a ../packages.exclude -I % echo # CONFIG_PACKAGE_% is not set >> .config
           make defconfig
 
       - name: Build firmware
