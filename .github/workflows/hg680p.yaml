@@ -1,4 +1,4 @@
-name: Build OpenWrt for HG680P
+name: OpenWrt HG680P
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -25,8 +25,12 @@ jobs:
 
     - name: Use custom config
       run: |
-        cp config/hg680p-openclash.config openwrt/.config
+        cp config/hg680p.config openwrt/.config
         cd openwrt
+        # Tambah paket dari file
+        xargs -a ../hg680p.include -I % echo CONFIG_PACKAGE_%=y >> .config
+        # Hapus paket dari file
+        xargs -a ../packages.exclude -I % echo # CONFIG_PACKAGE_% is not set >> .config
         make defconfig
 
     - name: Build firmware
