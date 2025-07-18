@@ -9,7 +9,11 @@ This repo builds a custom OpenWrt firmware for ZTE HG680P (Amlogic S905X) & X86_
 - LuCI web interface with SSL
 - Argon themes
 
+
 ## Credits
 - OpenWrt
 - OpenClash by Vernesong
 - Argon themes by JerryK
+
+
+## Free For use
