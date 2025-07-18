@@ -1,0 +1,7 @@
+luci
+luci-ssl-openssl
+luci-app-openclash
+kmod-tun
+ip-full
+coreutils
+wget-ssl
