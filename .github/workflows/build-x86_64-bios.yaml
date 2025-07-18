@@ -66,6 +66,7 @@ jobs:
 
       - name: Upload Firmware to Release
         uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             openwrt/bin/targets/*/*/*.img.gz
