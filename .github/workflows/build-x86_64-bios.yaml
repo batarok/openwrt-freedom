@@ -3,13 +3,14 @@ name: OpenWrt x86_64-BIOS
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'OpenWRT-Freedom-v23.05.rc1'
+      base_tag: openwrt-23.05-freedom-rc
+        description: 'Base from penwrt-v23.05'
         required: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,17 +33,15 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-      - name: Use custom config
+      - name: Use custom config and include packages
         run: |
           cp config/x86_64_bios.config openwrt/.config
           cd openwrt
 
-          # Tambahkan paket
           while read pkg; do
             ./scripts/kconfig.pl 'package' "$pkg" >> .config
           done < ../x86_64.include
 
-          # Hapus paket
           while read pkg; do
             echo "# CONFIG_PACKAGE_$pkg is not set" >> .config
           done < ../packages.exclude
@@ -52,11 +51,23 @@ jobs:
       - name: Build firmware
         run: |
           cd openwrt
-          make -j$(nproc) || make -j1 V=s || exit 1
+          make -j$(nproc) || make -j1 V=s
+
+      - name: Count firmware files
+        id: count_files
+        run: |
+          COUNT=$(find openwrt/bin/targets/ -type f -name '*.img.gz' | wc -l)
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: Set dynamic tag name
+        id: tag
+        run: |
+          TAG="${{ github.event.inputs.base_tag }}${{ steps.count_files.outputs.count }}"
+          echo "tag_name=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: List firmware files
         run: |
-          find openwrt/bin/targets/ -type f
+          find openwrt/bin/targets/ -type f -name '*.img.gz'
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -65,22 +76,11 @@ jobs:
           path: |
             openwrt/bin/targets/*/*/*.img.gz
 
-      - name: Create GitHub Release
+      - name: Create GitHub Release and upload firmware
         uses: softprops/action-gh-release@v2
-        if: github.event_name == 'workflow_dispatch'
         with:
-          name: Firmware BIOS ${{ github.event.inputs.tag }}
-          tag_name: ${{ github.event.inputs.tag }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Firmware to Release
-        uses: softprops/action-gh-release@v2
-        if: github.event_name == 'workflow_dispatch'
-        with:
-          files: |
-            openwrt/bin/targets/*/*/*.img.gz
+          name: Firmware BIOS ${{ steps.tag.outputs.tag_name }}
+          tag_name: ${{ steps.tag.outputs.tag_name }}
+          files: openwrt/bin/targets/*/*/*.img.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
