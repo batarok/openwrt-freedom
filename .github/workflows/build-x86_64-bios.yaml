@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       base_tag: openwrt-23.05-freedom-rc
-        description: 'Base from penwrt-v23.05'
+        description: 'Base from branches openwrt-v23.05'
         required: true
 
 jobs:
