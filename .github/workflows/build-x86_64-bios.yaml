@@ -3,9 +3,10 @@ name: OpenWrt x86_64-BIOS
 on:
   workflow_dispatch:
     inputs:
-      base_tag: openwrt-23.05-freedom-rc
+      base_tag:
         description: 'Base from branches openwrt-v23.05'
         required: true
+        default: openwrt-23.05-freedom-rc
 
 jobs:
   build:
