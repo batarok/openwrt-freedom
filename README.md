@@ -28,10 +28,10 @@ Custom OpenWrt firmware for **ZTE HG680P (Amlogic S905X)** and **x86_64** with O
 
 - OpenWRT Packages:
    - Include: 
-    - HG680P > hg680p.include
-    - X86_64 > x86_64.include
+     - HG680P > hg680p.include
+     - X86_64 > x86_64.include
    - Exclude:
-       - All: > packages.exclude
+     - All: > packages.exclude
 
 - OpenWRT Workflow:
   - inside .github/workflow folder
