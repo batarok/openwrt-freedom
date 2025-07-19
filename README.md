@@ -1,20 +1,40 @@
-# OpenWrt for Freedom
+# OpenWrt Freedom
 
-This repo builds a custom OpenWrt firmware for ZTE HG680P (Amlogic S905X) & X86_64 with OpenClash support.
+Custom OpenWrt firmware for **ZTE HG680P (Amlogic S905X)** and **x86_64** with OpenClash support.
+
+---
 
 ## Features
-- Target: meson64
-- DTS: meson-gxl-s905x-p212.dtb
-- OpenClash pre-installed
-- LuCI web interface with SSL
-- Argon themes
 
-## How To Use / Build
-- Go to Actions and choose workflows ( <a href="https://github.com/batarok/openwrt-freedom/actions/workflows/hg680p.yaml">HG680P</a> | <a href="https://github.com/batarok/openwrt-freedom/actions/workflows/build-x86_64-bios.yaml"> X86_64-BIOS</a> | <a href="https://github.com/batarok/openwrt-freedom/actions/workflows/build-x86_64-uefi.yaml">X68_64-UEFI</a> ) and choose Run Workflow
+- **Target:** meson64
+- **Device Tree:** meson-gxl-s905x-p212.dtb
+- **OpenClash** pre-installed
+- **LuCI** web interface with SSL
+- **Argon** themes
+
+---
+
+## How to Build / Use
+
+1. Buka tab **Actions** di GitHub repo ini.
+2. Pilih workflow sesuai perangkat Anda:
+   - [HG680P Workflow](https://github.com/batarok/openwrt-freedom/actions/workflows/hg680p.yaml)
+   - [x86_64 Workflow](https://github.com/batarok/openwrt-freedom/actions/workflows/x86_64.yaml)
+3. Ikuti instruksi pada workflow untuk membangun firmware.
+
+---
 
 ## Credits
-- OpenWRT
-- OpenClash by Vernesong
-- Argon themes by JerryK
 
-## Free For use
+- [OpenWrt](https://openwrt.org/)
+- [OpenClash](https://github.com/vernesong/OpenClash) by Vernesong
+- [Argon Themes](https://github.com/jerrykuku/luci-theme-argon) by JerryK
+
+---
+
+## License
+
+Free for personal use only. Commercial use and redistribution are prohibited.  
+See the LICENSE file for details.
+
+---
