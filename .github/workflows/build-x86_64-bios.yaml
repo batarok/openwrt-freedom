@@ -44,10 +44,10 @@ jobs:
            ./scripts/kconfig.pl 'package' "$pkg" >> .config
            done < ../x86_64.include
 
-         while read -r pkg; do
-          [[ -z "$pkg" || "$pkg" == \#* ]] && continue
-          echo "# CONFIG_PACKAGE_$pkg is not set" >> .config
-          done < ../packages.exclude
+          while read -r pkg; do
+           [[ -z "$pkg" || "$pkg" == \#* ]] && continue
+           echo "# CONFIG_PACKAGE_$pkg is not set" >> .config
+           done < ../packages.exclude
 
           make defconfig
 
