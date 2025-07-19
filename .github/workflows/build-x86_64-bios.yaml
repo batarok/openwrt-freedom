@@ -2,9 +2,10 @@ name: OpenWrt x86_64-BIOS
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*'
+    inputs:
+      tag:
+        description: 'Release tag name (e.g., v23.05.3)'
+        required: true
 
 jobs:
   build:
@@ -17,13 +18,13 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y build-essential clang flex bison g++ gawk gcc-multilib gettext git libncurses5-dev libssl-dev python3-full rsync unzip zlib1g-dev
-      
+
       - name: Set OpenWrt version from file
         id: openwrt_version
         run: |
           VERSION=$(cat openwrt-version-x86.txt)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          
+
       - name: Clone OpenWrt
         run: |
           git clone --depth=1 -b ${{ steps.openwrt_version.outputs.version }} https://github.com/openwrt/openwrt
@@ -35,30 +36,41 @@ jobs:
         run: |
           cp config/x86_64_bios.config openwrt/.config
           cd openwrt
-          # Tambah paket dari file
-          xargs -a ../x86_64.include -I % echo CONFIG_PACKAGE_%=y >> .config
-          # Hapus paket dari file
-          xargs -a ../packages.exclude -I % echo # CONFIG_PACKAGE_% is not set >> .config
+
+          # Tambahkan paket
+          while read pkg; do
+            ./scripts/kconfig.pl 'package' "$pkg" >> .config
+          done < ../x86_64.include
+
+          # Hapus paket
+          while read pkg; do
+            echo "# CONFIG_PACKAGE_$pkg is not set" >> .config
+          done < ../packages.exclude
+
           make defconfig
 
       - name: Build firmware
         run: |
-            cd openwrt
-            make -j$(nproc) || make -j1 V=s
+          cd openwrt
+          make -j$(nproc) || make -j1 V=s || exit 1
+
+      - name: List firmware files
+        run: |
+          find openwrt/bin/targets/ -type f
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: openwrt-x86_64-bios
           path: |
-            openwrt/bin/targets/*/*/*.img.gz
+            openwrt/bin/targets/*/*/*.img*
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+        if: github.event_name == 'workflow_dispatch'
         with:
-          name: Firmware BIOS ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          name: Firmware BIOS ${{ github.event.inputs.tag }}
+          tag_name: ${{ github.event.inputs.tag }}
           draft: false
           prerelease: false
         env:
@@ -66,9 +78,9 @@ jobs:
 
       - name: Upload Firmware to Release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+        if: github.event_name == 'workflow_dispatch'
         with:
           files: |
-            openwrt/bin/targets/*/*/*.img.gz
+            openwrt/bin/targets/*/*/*.img*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
