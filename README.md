@@ -34,7 +34,7 @@ Custom OpenWrt firmware for **ZTE HG680P (Amlogic S905X)** and **x86_64** with O
 
 ## License
 
-Free for personal use only. Redistribution is permitted free of charge, but not for commercial use
+Free for personal use only. Redistribution is permitted free of charge, but not for commercial use.
 See the LICENSE file for details.
 
 ---
