@@ -32,7 +32,7 @@ jobs:
           git clone --depth=1 -b ${{ steps.openwrt_version.outputs.version }} https://github.com/openwrt/openwrt
           cd openwrt
 
-      - name: Atur feeds.conf.override sesuai versi OpenWrt
+      - name: settings feeds.conf.override
         run: |
          VERSION_TAG=$(grep 'VERSION_NUMBER:=' include/version.mk | cut -d= -f2 | tr -d ' ')
          echo "Versi OpenWrt utama: $VERSION_TAG"
