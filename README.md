@@ -13,7 +13,7 @@ This repo builds a custom OpenWrt firmware for ZTE HG680P (Amlogic S905X) & X86_
 - Go to Actions and choose workflows ( <a href="https://github.com/batarok/openwrt-freedom/actions/workflows/hg680p.yaml">HG680P</a> | <a href="https://github.com/batarok/openwrt-freedom/actions/workflows/build-x86_64-bios.yaml"> X86_64-BIOS</a> | <a href="https://github.com/batarok/openwrt-freedom/actions/workflows/build-x86_64-uefi.yaml">X68_64-UEFI</a> ) and choose Run Workflow
 
 ## Credits
-- OpenWrt
+- OpenWRT
 - OpenClash by Vernesong
 - Argon themes by JerryK
 
