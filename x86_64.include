@@ -1,4 +1,5 @@
 luci
+luci-base
 luci-ssl-openssl
 luci-app-openclash
 coreutils
@@ -7,7 +8,6 @@ kmod-tun
 iptables-mod-tproxy
 kmod-inet-diag
 luci-app-firewall
-luci-base
 luci-theme-argon
 wget-ssl
 ca-certificates
