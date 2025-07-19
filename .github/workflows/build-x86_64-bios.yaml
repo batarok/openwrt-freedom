@@ -22,7 +22,7 @@ jobs:
       - name: Set OpenWrt version from file
         id: openwrt_version
         run: |
-          VERSION=$(cat openwrt-version-x86.txt)
+          VERSION=$(cat version-x86.txt)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Clone OpenWrt
@@ -63,7 +63,7 @@ jobs:
         with:
           name: openwrt-x86_64-bios
           path: |
-            openwrt/bin/targets/*/*/*.img*
+            openwrt/bin/targets/*/*/*.img.gz
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -81,6 +81,6 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         with:
           files: |
-            openwrt/bin/targets/*/*/*.img*
+            openwrt/bin/targets/*/*/*.img.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
