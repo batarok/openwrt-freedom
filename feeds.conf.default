@@ -1,6 +1,6 @@
 src-git packages https://github.com/openwrt/packages
 #src-git luci https://github.com/openwrt/luci.git
-src-git luci https://github.com/openwrt/luci.git;openwrt-23.05
+src-git luci https://github.com/openwrt/luci.git
 #src-git routing https://github.com/openwrt/routing
 src-git telephony https://github.com/openwrt/telephony
 src-git openclash https://github.com/vernesong/OpenClash
