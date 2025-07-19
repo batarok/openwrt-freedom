@@ -6,7 +6,7 @@ Custom OpenWrt firmware for **ZTE HG680P (Amlogic S905X)** and **x86_64** with O
 
 ## Features
 
-- **Target:** meson64
+- **Target:** meson64 or x86_64
 - **Device Tree:** meson-gxl-s905x-p212.dtb
 - **OpenClash** pre-installed
 - **LuCI** web interface with SSL
