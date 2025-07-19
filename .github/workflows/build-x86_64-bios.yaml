@@ -23,7 +23,7 @@ jobs:
       - name: Set OpenWrt version from file
         id: openwrt_version
         run: |
-          VERSION=$(cat version-x86.txt)
+          VERSION=$(cat version-x86_64.txt)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Clone OpenWrt
