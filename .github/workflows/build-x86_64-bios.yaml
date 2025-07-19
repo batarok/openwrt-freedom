@@ -41,6 +41,7 @@ jobs:
 
           while read -r pkg; do
            [[ -z "$pkg" || "$pkg" == \#* ]] && continue
+           echo ">> Menambahkan paket: $pkg"
            ./scripts/kconfig.pl 'package' "$pkg" >> .config
            done < ../x86_64.include
 
