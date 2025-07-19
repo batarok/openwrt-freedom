@@ -32,18 +32,18 @@ jobs:
           git clone --depth=1 -b ${{ steps.openwrt_version.outputs.version }} https://github.com/openwrt/openwrt
           cd openwrt
 
-      - name: Generate feeds.conf.override
-        working-directory: openwrt
+      - name: Atur feeds.conf.override sesuai versi OpenWrt
         run: |
-          # ambil versi utama (23.05 dari 23.05.3)
-          VERSION_TAG=$(cut -d. -f1,2 version)
-          
-          cat > feeds.conf.override <<EOF
-          src-git packages https://github.com/openwrt/packages.git^${VERSION_TAG}
-          src-git luci     https://github.com/openwrt/luci.git^${VERSION_TAG}
-          src-git routing  https://github.com/openwrt/routing.git^${VERSION_TAG}
-          src-git telephony https://github.com/openwrt/telephony.git^${VERSION_TAG}
-          EOF
+         VERSION_TAG=$(grep 'VERSION_NUMBER:=' include/version.mk | cut -d= -f2 | tr -d ' ')
+         echo "Versi OpenWrt utama: $VERSION_TAG"
+         cat > feeds.conf.override <<EOF
+         src-git packages https://github.com/openwrt/packages.git^${VERSION_TAG}
+         src-git luci     https://github.com/openwrt/luci.git^${VERSION_TAG}
+         src-git routing  https://github.com/openwrt/routing.git^${VERSION_TAG}
+         src-git telephony https://github.com/openwrt/telephony.git^${VERSION_TAG}
+         src-git openclash https://github.com/vernesong/OpenClash.git
+         EOF
+
 
       - name: Update & Install Feeds
         working-directory: openwrt
